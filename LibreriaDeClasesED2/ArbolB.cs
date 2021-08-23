@@ -40,17 +40,45 @@ namespace LibreriaDeClasesED2
             }
         }
 
-        public void Insertar(T Info, Delegate Condicion, NodoVector<T> Padre, int contador) 
+        public void Insertar(T Info, Delegate Condicion, NodoVector<T> padre, int contador) 
         {
-            if (contador <= grado) 
+            if (contador <= grado)
             {
-                if (Padre.Posicion[contador] == null)
+                if (padre.Posicion[contador] == null)
                 {
-                    Padre.Posicion[contador] = CrearNodo(Info);
+                    padre.Posicion[contador] = CrearNodo(Info);
                 }
-                else 
+                else
                 {
-                    Insertar(Info, Condicion, Padre, contador+1);
+                    Insertar(Info, Condicion, padre, contador + 1);
+                }
+            }
+            else 
+            {
+                if (padre.Padre == null) 
+                {
+                    if (padre.Posicion[0].Izquierda == null && padre.Posicion[0].Derecha == null) 
+                    {
+                        NodoVector<T> Arriba = new NodoVector<T>();
+                        NodoVector<T> VectorIzquierda = new NodoVector<T>();
+                        NodoVector<T> VectorDerecha = new NodoVector<T>();
+                        Arriba.Posicion[0].Data = padre.Posicion[(grado / 2) - 1].Data;
+                        int VectorPosicion = 0;
+                        for (int i = (grado / 2) - 1; i >= 0; i--) 
+                        {
+                            VectorIzquierda.Posicion[VectorPosicion] = padre.Posicion[i - 1];
+                            VectorPosicion++;
+                        }
+                        VectorPosicion = 0;
+                        for (int i = (grado / 2) - 1; i < grado-1; i++)
+                        {
+                            VectorIzquierda.Posicion[VectorPosicion] = padre.Posicion[i + 1];
+                            VectorPosicion++;
+                        }
+                        Raiz = Arriba;
+                        Raiz.Posicion[0].Izquierda = VectorIzquierda;
+                        Raiz.Posicion[0].Derecha = VectorDerecha;
+                    }
                 }
             }
         }

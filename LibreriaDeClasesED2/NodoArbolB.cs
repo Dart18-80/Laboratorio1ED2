@@ -8,6 +8,6 @@ namespace LibreriaDeClasesED2
     {
         public T Data { get; set; }
         public NodoVector<T> Derecha { get; set; }
-        public NodoArbolB<T> Izquierda { get; set; }
+        public NodoVector<T> Izquierda { get; set; }
     }
 }
