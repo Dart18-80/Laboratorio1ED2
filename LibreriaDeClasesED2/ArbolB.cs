@@ -5,53 +5,30 @@ using System.Text;
 
 namespace LibreriaDeClasesED2
 {
-    class ArbolB <T> where T : IComparable
+    class ArbolB<T> where T : IComparable
     {
         public int grado;
-        NodoArbolB<T> Raiz;
-        public ArbolB()
-        {
-            NodoArbolB<T> Raiz = new NodoArbolB<T>();
-            Raiz.Data = default;
-            Raiz.Anterior = null;
-            Raiz.Derecha = null;
-            Raiz.Izquierda = null;
-            Raiz.Siguiente = null;
-        }
+        int contador;
+        NodoVector<T> Raiz;
 
-        public void AgregarGrado(int Numero) 
+        public void Grado (int NumGrado)
         {
-            if (Numero >= 4) 
+            if (NumGrado <= 4)
             {
-                grado = Numero;
+                grado = NumGrado;
             }
         }
 
-        public void Insertar(T Info) 
+        public void Insertar(T Info, Delegate Condicion) 
         {
-            if (Raiz.Data == null)
+            if (Raiz == null) 
             {
-                Raiz.Data = Info;
-            }
-            else
-            {
-                Insertar(Raiz,Info);
+                NodoArbolB<T> Nuevo = new NodoArbolB<T>();
+                Nuevo.Data = Info;
+                Raiz.Posicion[0] = Nuevo;
             }
         }
 
-        public void Insertar(NodoArbolB<T> Padre, T Info) 
-        {
-            if (Raiz.Data == null)
-            {
-                Raiz.Data = Info;
-            }
-            else 
-            {
-                if () 
-                {
-
-                }
-            }
-        }
+        
     }
 }
