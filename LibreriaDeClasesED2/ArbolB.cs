@@ -42,7 +42,7 @@ namespace LibreriaDeClasesED2
 
         public void Insertar(T Info, Delegate Condicion, NodoVector<T> padre, int contador) 
         {
-            if (contador <= grado)
+            if (contador <= grado-1)
             {
                 if (padre.Posicion[contador] == null)
                 {
@@ -81,6 +81,12 @@ namespace LibreriaDeClasesED2
                     }
                 }
             }
+        }
+
+
+        void BuscarInsert(NodoVector<T>Raiz, T Info, Delegate Condicion) 
+        {
+            
         }
         
     }
