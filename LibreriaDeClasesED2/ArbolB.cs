@@ -12,7 +12,7 @@ namespace LibreriaDeClasesED2
 
         public void Grado (int NumGrado)
         {
-            if (NumGrado <= 4)
+            if (NumGrado >= 4)
             {
                 grado = NumGrado;
             }
@@ -64,22 +64,24 @@ namespace LibreriaDeClasesED2
                         NodoVector<T> VectorIzquierda = new NodoVector<T>();
                         NodoVector<T> VectorDerecha = new NodoVector<T>();
 
+                        //padre.Posicion[contador + 1] = CrearNodo(Info);    Se pone el nuevo nodo para poder separar el vector correctamente 
+                        
                         //Obtenemos la primera posicion del nuevo nodo Raiz
                         Arriba.Posicion[0].Data = padre.Posicion[(grado / 2) - 1].Data;
 
                         // LLenamos los vectores de los hijos tanto derecha como izquiera
-                        int VectorPosicion = 0;
-                        for (int i = (grado / 2) - 1; i >= 0; i--) //Ciclo de llenado para hijos izquierdos
+                        int VectorPosicionI = 0;
+                        for (int i = (grado / 2) - 1; i > 0; i--) //Ciclo de llenado para hijos izquierdos
                         {
-                            VectorIzquierda.Posicion[VectorPosicion] = padre.Posicion[i - 1];
-                            VectorPosicion++;
+                            VectorIzquierda.Posicion[VectorPosicionI] = padre.Posicion[i - 1];
+                            VectorPosicionI++;
                         }
-                        VectorPosicion = 0;
+                        int VectorPosicionD = 0;
 
                         for (int i = (grado / 2) - 1; i < grado - 1; i++)//Ciclo de llenado para hijos Derechos
                         {
-                            VectorIzquierda.Posicion[VectorPosicion] = padre.Posicion[i + 1];
-                            VectorPosicion++;
+                            VectorDerecha.Posicion[VectorPosicionD] = padre.Posicion[i + 1];
+                            VectorPosicionD++;
                         }
 
                         //Igualamos el nodo que subio a la Raiz 
@@ -119,6 +121,38 @@ namespace LibreriaDeClasesED2
         void BuscarInsert(NodoVector<T>Raiz, T Info, Delegate Condicion) 
         {
             
+        }
+
+        public int RecorridoVector(T Info, Delegate Condicion, NodoVector<T> padre, int contador)
+        {
+            if (padre.Posicion[0]!=null)
+            {
+                int PosicionInsert = 0;
+                for (int i = 0; i < contador-1; i++)
+                {
+                    int compar = Convert.ToInt16(Condicion.DynamicInvoke(padre.Posicion[i].Data, Info));
+                    if (compar==-1)
+                    {
+                        PosicionInsert = i;
+                        i = contador;
+                    }
+                }
+                if (padre.Posicion[PosicionInsert] == null)
+                {
+                    padre.Posicion[PosicionInsert] = CrearNodo(Info);
+                }
+                else
+                {
+                    NodoArbolB<T> aux = new NodoArbolB<T>();
+                    aux = padre.Posicion[PosicionInsert];
+                    padre.Posicion[PosicionInsert].Data = Info;
+                    if ()
+                    {
+
+                    }
+                }
+            }
+            return 0;
         }
         
     }
