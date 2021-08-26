@@ -97,6 +97,24 @@ namespace LibreriaDeClasesED2
             }
         }
 
+        NodoVector<T> Ordenamiento (NodoVector<T> NodoOrdenado, Delegate Condicion) 
+        {
+            T Info;
+            for (int a = 1; a < grado-1; a++)
+                for (int b = grado - 2; b >= a; b--)
+                {
+                    int Comparacion = Convert.ToInt32(Condicion.DynamicInvoke(NodoOrdenado.Posicion[b-1].Data, NodoOrdenado.Posicion[b].Data));
+                    if (Comparacion == 1)
+                    {
+                        Info = NodoOrdenado.Posicion[b - 1].Data;
+                        NodoOrdenado.Posicion[b - 1].Data = NodoOrdenado.Posicion[b].Data;
+                        NodoOrdenado.Posicion[b].Data = Info;
+                    }
+                }
+            return NodoOrdenado;
+        }
+
+
 
         void BuscarInsert(NodoVector<T>Raiz, T Info, Delegate Condicion) 
         {
