@@ -17,15 +17,17 @@ namespace LibreriaDeClasesED2
             Raiz = NodoV;
         }
 
-        public void Insert(NodoArbolB<T> NewNodo ,Delegate Comparacion) 
+        public void Insert(T NewNodo ,Delegate Comparacion) 
         {
+            NodoArbolB<T> NuevoMe = new NodoArbolB<T>();
             if (Raiz.Vector[0] == null)
             {
-                Raiz.Vector[0] = NewNodo;
+                NuevoMe.Data = NewNodo;
+                Raiz.Vector[0] = NuevoMe;
             }
             else 
             {
-                Insert(NewNodo, Raiz,Comparacion);
+                Insert(NuevoMe, Raiz,Comparacion);
             }
         }
 

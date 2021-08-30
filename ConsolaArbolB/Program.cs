@@ -5,21 +5,25 @@ namespace ConsolaArbolB
 {
     class Program
     {
+        delegate int DelegadosN(Enteros Numero1, Enteros Numero2);
         static void Main(string[] args)
         {
             Console.WriteLine("Arbol B");
             Console.WriteLine("Ingrese el valor del grado:");
             int val = Convert.ToInt16(Console.ReadLine());
             bool OpArbol = true;
-            ArbolPrueba<Enteros> NuevoArbol = new ArbolPrueba<Enteros>(val);
+
+            ArbolPrueba<Enteros> NuevoArbolCons = new ArbolPrueba<Enteros>(val);
+            Enteros CallDatosNumeros = new Enteros();
+            DelegadosN InvocarNumero = new DelegadosN(CallDatosNumeros.CompareToNumero);
 
             while (OpArbol)//while general
             {
                 Console.WriteLine("Seleccione la opcion que desea realizar");
-                Console.WiriteLine("1) Ingresar valores uno por uno");
+                Console.WriteLine("1) Ingresar valores uno por uno");
                 Console.WriteLine("2) Ingresar valores en conjunto"); 
                 Console.WriteLine("3) Eliminar");
-                Console.WiriteLine("4) Buscar");
+                Console.WriteLine("4) Buscar");
                 Console.WriteLine("5) Salir del Programa");
                 int opcion = Convert.ToInt32(Console.ReadLine());
 
@@ -30,6 +34,13 @@ namespace ConsolaArbolB
                     {
                         Console.WriteLine("Ingrese un valor numerico:");
                         int valorUno = Convert.ToInt32(Console.ReadLine());
+
+                        var NuevoValor = new Enteros
+                        {
+                            NumeroInt = valorUno
+                        };
+                        NuevoArbolCons.Insert(NuevoValor, InvocarNumero);
+
                         Console.WriteLine("1) Seguir ingresando valores");
                         Console.WriteLine("2) Salir del ingreso de valores uno por uno");
                         int Exit1 = Convert.ToInt32(Console.ReadLine());
