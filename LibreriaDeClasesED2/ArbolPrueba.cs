@@ -12,7 +12,7 @@ namespace LibreriaDeClasesED2
         public ArbolPrueba(int Grado)
         {
             Degree = Grado;
-            NodoVector<T> NodoV = new NodoVector<T>(Grado);
+            NodoVector<T> NodoV = new NodoVector<T>(Grado);// Es un espacio mas, cuando se llene por conpleto se tiene que balancear
             NodoV.Vector = new NodoArbolB<T>[Grado];
             Raiz = NodoV;
         }
@@ -281,5 +281,47 @@ namespace LibreriaDeClasesED2
             return Vacio;
         }
 
+        public void Delete(T New, NodoVector<T> Capsule, Delegate Comparacion) 
+        {
+            int i = 0;
+            bool vacio = true;
+            while (vacio)
+            {
+                if (Capsule.Vector[i].Data != null)
+                {
+                    int compar = Convert.ToInt32(Comparacion.DynamicInvoke(New, Capsule.Vector[i].Data));
+                    if (compar==0)
+                    {
+                        Delete(New);
+                        vacio = false;
+                    }
+                    else if (compar<0)
+                    {
+                        if (Capsule.Vector[i].Izquierda!=null)
+                        {
+                            Delete(New, Capsule.Vector[i].Izquierda, Comparacion);
+                            vacio = false;
+                        }
+                    }
+                    else if(compar>0)
+                    {
+                        if (Capsule.Vector[i].Derecha != null)
+                        {
+                            Delete(New, Capsule.Vector[i].Derecha, Comparacion);
+                            vacio = false;
+                        }
+                    }
+                    else
+                    {
+                        vacio = false; // no se encontro el valor en el arbol
+                    }
+                }
+                i++;
+            }
+        }
+        public void Delete(T New) 
+        {
+        
+        }
     }
 }
