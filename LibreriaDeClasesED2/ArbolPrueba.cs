@@ -158,7 +158,7 @@ namespace LibreriaDeClasesED2
         }
 
         // Llenado del Vector en la posicion que se dice
-        NodoArbolB<T>[] SheetFilling(T New, NodoArbolB<T>[] Capsule,Delegate Condicion) 
+        /*NodoArbolB<T>[] SheetFilling(T New, NodoArbolB<T>[] Capsule,Delegate Condicion) 
         {
             return SheetFilling(New, Capsule, 0, Condicion);
         }
@@ -176,6 +176,7 @@ namespace LibreriaDeClasesED2
                 return SheetFilling(New, Capsule, IndexVector+1,Condicion);
             }
         }
+        */
         //Ordenar el Vector 
         public void ShellSort(NodoArbolB<T>[] Ordenar, Delegate Condicion)
         {
