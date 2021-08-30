@@ -5,7 +5,7 @@ namespace ConsolaArbolB
 {
     class Program
     {
-        delegate int DelegadosN(Enteros Numero1, Enteros Numero2);
+        delegate int DelegadosN(int Numero1, int Numero2);
         static void Main(string[] args)
         {
             Console.WriteLine("Arbol B");
@@ -13,7 +13,7 @@ namespace ConsolaArbolB
             int val = Convert.ToInt16(Console.ReadLine());
             bool OpArbol = true;
 
-            ArbolPrueba<Enteros> NuevoArbolCons = new ArbolPrueba<Enteros>(val);
+            ArbolPrueba<int> NuevoArbolCons = new ArbolPrueba<int>(val);
             Enteros CallDatosNumeros = new Enteros();
             DelegadosN InvocarNumero = new DelegadosN(CallDatosNumeros.CompareToNumero);
 
@@ -34,12 +34,7 @@ namespace ConsolaArbolB
                     {
                         Console.WriteLine("Ingrese un valor numerico:");
                         int valorUno = Convert.ToInt32(Console.ReadLine());
-
-                        var NuevoValor = new Enteros
-                        {
-                            NumeroInt = valorUno
-                        };
-                        NuevoArbolCons.Insert(NuevoValor, InvocarNumero);
+                        NuevoArbolCons.Insert(valorUno, InvocarNumero);
 
                         Console.WriteLine("1) Seguir ingresando valores");
                         Console.WriteLine("2) Salir del ingreso de valores uno por uno");

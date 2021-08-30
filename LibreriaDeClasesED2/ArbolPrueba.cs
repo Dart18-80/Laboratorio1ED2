@@ -20,9 +20,9 @@ namespace LibreriaDeClasesED2
         public void Insert(T NewNodo ,Delegate Comparacion) 
         {
             NodoArbolB<T> NuevoMe = new NodoArbolB<T>();
+            NuevoMe.Data = NewNodo;
             if (Raiz.Vector[0] == null)
             {
-                NuevoMe.Data = NewNodo;
                 Raiz.Vector[0] = NuevoMe;
             }
             else 
@@ -35,11 +35,13 @@ namespace LibreriaDeClasesED2
         {
             if (VectorPadre.Vector[0].Izquierda == null)
             {
-                for (int i = 0; i <= Degree - 1; i++)
+                bool ciclo = true; 
+                for (int i = 0; i <= Degree - 1 && ciclo == true; i++)
                 {
-                    if (VectorPadre.Vector[i].Data == null)
+                    if (VectorPadre.Vector[i] == null)
                     {
                         VectorPadre.Vector[i] = NewNodo;
+                        ciclo = false;
                     }
                 }
                 NodoArbolB<T> Auxiliar = new NodoArbolB<T>();
@@ -186,7 +188,8 @@ namespace LibreriaDeClasesED2
             int Ciclo = 0;
             T Aux = default;
             int e = 0;
-            Salto = Ordenar.Length / 2;
+            int Ref = HasNode(Ordenar);
+            Salto = (Ref-1)/2;
             while (Salto > 0)
             {
                 Ciclo = 1;
@@ -194,17 +197,21 @@ namespace LibreriaDeClasesED2
                 {
                     Ciclo = 0;
                     e = 1;
-                    while (e <= (Ordenar.Length - Salto))
+                    while (e <= (Ref - Salto))
                     {
-                        int Comparacion = Convert.ToInt32(Condicion.DynamicInvoke(Ordenar[e - 1].Data, Ordenar[(e - 1) + Salto].Data));
-                        if (Comparacion > 0)
+                        if (Ordenar[e-1] != null && Ordenar[(e-1)+Salto] != null) 
                         {
-                            Aux = Ordenar[(e - 1) + Salto].Data;
-                            Ordenar[(e - 1) + Salto].Data = Ordenar[e - 1].Data;
-                            Ordenar[(e - 1)].Data = Aux;
-                            Ciclo = 1;
+                            int Comparacion = Convert.ToInt32(Condicion.DynamicInvoke(Ordenar[e - 1].Data, Ordenar[(e - 1) + Salto].Data));
+                            if (Comparacion > 0)
+                            {
+                                Aux = Ordenar[(e - 1) + Salto].Data;
+                                Ordenar[(e - 1) + Salto].Data = Ordenar[e - 1].Data;
+                                Ordenar[(e - 1)].Data = Aux;
+                                Ciclo = 1;
+                            }
+                            e++;
                         }
-                        e++;
+                        
                     }
                 }
                 Salto = Salto / 2;
@@ -217,7 +224,7 @@ namespace LibreriaDeClasesED2
             NodoVector<T> Left = new NodoVector<T>(Degree);
             NodoVector<T> Right = new NodoVector<T>(Degree);
 
-            int Div = (UploadVector.Length / 2) - 1;
+            int Div = (Degree / 2) - 1;
             Aux = UploadVector[Div];
 
             for (int i = 0; i<Div; i++) 
@@ -225,7 +232,7 @@ namespace LibreriaDeClasesED2
                 Left.Vector[i] =UploadVector[i];
             }
             int Begin = 0;
-            for (int i = UploadVector.Length-1; i>Div; i++) 
+            for (int i = Degree-2; i>Div; i++) 
             {
                 Right.Vector[Begin] = UploadVector[i];
                 Begin++;
@@ -266,7 +273,7 @@ namespace LibreriaDeClasesED2
             bool Vacio = true;
             for (int i = 0; i <= Degree-1; i++) 
             {
-                if (Verificar[i].Data == null) 
+                if (Verificar[i] == null) 
                 {
                     Vacio = false;
                 }
@@ -274,14 +281,14 @@ namespace LibreriaDeClasesED2
             return Vacio; 
         }
 
-        public bool HasNode(NodoArbolB<T>[] Verificar, int i) 
+        public int HasNode(NodoArbolB<T>[] Verificar) 
         {
-            bool Vacio = false;
-            if (Verificar[i].Data == null) 
+            int i = 0;
+            while (Verificar[i] != null && i < Degree-1) 
             {
-                Vacio = true;
+                i++;
             }
-            return Vacio;
+            return i;
         }
 
         public void Delete(T New, NodoVector<T> Capsule, Delegate Comparacion) 
