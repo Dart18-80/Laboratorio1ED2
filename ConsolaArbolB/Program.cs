@@ -11,7 +11,7 @@ namespace ConsolaArbolB
             Console.WriteLine("Ingrese el valor del grado:");
             int val = Convert.ToInt16(Console.ReadLine());
             bool OpArbol = true;
-            ArbolPrueba<Enteros> NuevoArbol = new ArbolPrueba<Enteros>();
+            ArbolPrueba<Enteros> NuevoArbol = new ArbolPrueba<Enteros>(val);
 
             while (OpArbol)//while general
             {
