@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LibreriaDeClasesED2
 {
-    class ArbolPrueba<T> where T : IComparable
+    public class ArbolPrueba<T> where T : IComparable
     {
         NodoVector<T> Raiz;
         int Degree; 

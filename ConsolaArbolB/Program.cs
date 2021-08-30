@@ -1,4 +1,5 @@
 ﻿using System;
+using LibreriaDeClasesED2;
 
 namespace ConsolaArbolB
 {
