@@ -11,13 +11,15 @@ namespace ConsolaArbolB
             Console.WriteLine("Ingrese el valor del grado:");
             int val = Convert.ToInt16(Console.ReadLine());
             bool OpArbol = true;
+            ArbolPrueba<Enteros> NuevoArbol = new ArbolPrueba<Enteros>();
+
             while (OpArbol)//while general
             {
                 Console.WriteLine("Seleccione la opcion que desea realizar");
-                Console.WriteLine("1) Ingresar valores uno por uno");
+                Console.WiriteLine("1) Ingresar valores uno por uno");
                 Console.WriteLine("2) Ingresar valores en conjunto"); 
                 Console.WriteLine("3) Eliminar");
-                Console.WriteLine("4) Buscar");
+                Console.WiriteLine("4) Buscar");
                 Console.WriteLine("5) Salir del Programa");
                 int opcion = Convert.ToInt32(Console.ReadLine());
 
