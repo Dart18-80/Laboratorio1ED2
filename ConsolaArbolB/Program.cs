@@ -5,7 +5,7 @@ namespace ConsolaArbolB
 {
     class Program
     {
-        delegate int DelegadosN(int Numero1, int Numero2);
+        delegate int DelegadosN(Enteros Numero1, Enteros Numero2);
         static void Main(string[] args)
         {
             Console.WriteLine("Arbol B");
@@ -13,7 +13,7 @@ namespace ConsolaArbolB
             int val = Convert.ToInt16(Console.ReadLine());
             bool OpArbol = true;
 
-            ArbolPrueba<int> NuevoArbolCons = new ArbolPrueba<int>(val);
+            ArbolPrueba<Enteros> NuevoArbolCons = new ArbolPrueba<Enteros>(val);
             Enteros CallDatosNumeros = new Enteros();
             DelegadosN InvocarNumero = new DelegadosN(CallDatosNumeros.CompareToNumero);
 
@@ -34,7 +34,12 @@ namespace ConsolaArbolB
                     {
                         Console.WriteLine("Ingrese un valor numerico:");
                         int valorUno = Convert.ToInt32(Console.ReadLine());
-                        NuevoArbolCons.Insert(valorUno, InvocarNumero);
+
+                        var NuevoValor = new Enteros
+                        {
+                            NumeroInt = valorUno
+                        };
+                        NuevoArbolCons.Insert(NuevoValor, InvocarNumero);
 
                         Console.WriteLine("1) Seguir ingresando valores");
                         Console.WriteLine("2) Salir del ingreso de valores uno por uno");
@@ -55,11 +60,13 @@ namespace ConsolaArbolB
                         Console.WriteLine("Ejm:1,2,3,4,5 (sin espacios entre numeros y comas)");
                         string ValorConj= Convert.ToString(Console.ReadLine());
                         string[] NumerosdeConj = ValorConj.Split(',');
-                        int lengtg = NumerosdeConj.Length-1;
-                        for (int i = 0; i < NumerosdeConj.Length-1; i++)
+                        int lengtg = NumerosdeConj.Length;
+                        int[] cadena = new int[lengtg];
+
+                        for (int i = 0; i < NumerosdeConj.Length; i++)
                         {
-                            int[] cadena=new int[lengtg];
                             cadena[i] = Convert.ToInt32(NumerosdeConj[i]);
+                            NuevoArbolCons.Insert(cadena[i], InvocarNumero);
                         }
 
                         Console.WriteLine("1) Seguir ingresando valores en conjunto");
