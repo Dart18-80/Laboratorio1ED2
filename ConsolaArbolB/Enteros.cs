@@ -8,9 +8,9 @@ namespace ConsolaArbolB
     {
         public int NumeroInt { get; set; }
 
-        public int CompareToNumero(Enteros num1, Enteros num2) 
+        public int CompareToNumero(int num1, int num2) 
         {
-            return num1.NumeroInt.CompareTo(num2.NumeroInt);
+            return num1.CompareTo(num2);
         }
         public int BuscarToNumero(int num1, Enteros num2)
         {

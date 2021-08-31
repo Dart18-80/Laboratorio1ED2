@@ -61,8 +61,19 @@ namespace LibreriaDeClasesED2
                     }
                     else
                     {
-                        Auxiliar = UploadNode(VectorPadre.Vector);
-
+                        if (FullVector(Raiz.Vector))
+                        {
+                            NodoVector<T> Nuevo = new NodoVector<T>(Degree);
+                            Auxiliar = UploadNode(Raiz.Vector);
+                            Nuevo.Vector[0] = Auxiliar;
+                            Raiz = Nuevo;
+                            Insert(NewNodo, Raiz, Comparacion);
+                        }
+                        else 
+                        {
+                            Auxiliar = UploadNode(VectorPadre.Vector);
+                            InsertNotRoot(Auxiliar, VectorPadre.Padre, Comparacion);
+                        }
                     }
                 }
             }
@@ -81,7 +92,7 @@ namespace LibreriaDeClasesED2
                     }
                     else
                     {
-                        if (VectorPadre.Vector[i] != null)
+                        if (VectorPadre.Vector[i+1] != null)
                         {
                             VerificacionDeEntrada = true;
                         }
@@ -94,6 +105,7 @@ namespace LibreriaDeClasesED2
 
             }
         }
+
 
         //Insertar Un desvordamiento que no es la Raiz 
         public void InsertNotRoot(NodoArbolB<T> NodeToInsert, NodoVector<T> Padre, Delegate Comparacion)
@@ -243,20 +255,7 @@ namespace LibreriaDeClasesED2
 
 
         // Verifica si el nodo desvordado es la raiz
-        public bool RootComparacion(NodoArbolB<T>[] Padre, Delegate Comparacion)
-        {
-            bool Retorno = false;
-            int Verificacion;
-            for (int i = 0; i <= Padre.Length - 1 && Retorno == false; i++)
-            {
-                Verificacion = Convert.ToInt32(Comparacion.DynamicInvoke(Padre[i].Data, Raiz.Vector[i].Data));
-                if (Verificacion != 0)
-                {
-                    Retorno = true;
-                }
-            }
-            return Retorno;
-        }
+
 
 
 
