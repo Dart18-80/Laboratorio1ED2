@@ -111,64 +111,48 @@ namespace LibreriaDeClasesED2
         //Insertar Un desvordamiento que no es la Raiz 
         public void InsertNotRoot(NodoArbolB<T> NodeToInsert, NodoVector<T> Padre, Delegate Comparacion)
         {
-            int indice = -1;
-            for (int i = 0; i <= Degree - 2; i++)
+            bool Ciclo = true;
+            int Rangos = 0;
+            NodoArbolB<T> Aux = new NodoArbolB<T>();
+            for (int i = 0; i <= Degree - 1 && Ciclo == true; i++)
             {
-                int CompAfter = Convert.ToInt32(Comparacion.DynamicInvoke(NodeToInsert.Data, Padre.Vector[i].Data));
-                if (indice == -1)
+                if (Padre.Vector[i] == null)
                 {
-                    if (CompAfter < 0)
-                    {
-                        indice = i;
-                    }
-                    else
-                    {
-                        if (i == Degree - 2)
-                        {
-                            indice = Degree - 2;
-                        }
-                    }
+                    Padre.Vector[i] = NodeToInsert;
+                    Rangos = i; 
+                    Ciclo = false;
                 }
             }
-            NodoArbolB<T> AuxCambio = new NodoArbolB<T>();
-            if (indice == 0)
+            Padre.Vector = ShellSort(Padre.Vector, Comparacion);
+            if (Rangos == 0)
             {
+                Padre.Vector[Rangos + 1].Izquierda = NodeToInsert.Derecha;
+            }
+            else if (Rangos == Degree - 1)
+            {
+                if (Padre.Padre.Vector == Raiz.Vector)
+                {
+                    Aux = UploadNode(Padre.Vector);
+                    Raiz.Vector = VaciarVector(Raiz.Vector);
+                    Raiz.Vector[0] = Aux;
+                    Raiz.Vector[0].Izquierda.Padre = Raiz;
+                    Raiz.Vector[0].Derecha.Padre = Raiz;
+                    Raiz.Padre = null;
+                    RaizEntrar = false;
+                }
+                else
+                {
+                    Aux = UploadNode(Padre.Vector);
+                    InsertNotRoot(Aux, Padre.Padre, Comparacion);
+                }
+            }
+            else 
+            {
+                if (Padre.Vector[Rangos + 1] != null)
+                    Padre.Vector[Rangos + 1].Izquierda = Padre.Vector[Rangos].Derecha;
 
-                for (int i = Degree - 2; i >= 0; i--)
-                {
-                    if (Padre.Padre.Vector[i].Data != null)
-                    {
-                        AuxCambio = Padre.Padre.Vector[i];
-                        Padre.Padre.Vector[i + 1] = AuxCambio;
-                    }
-                }
-                Padre.Padre.Vector[0] = NodeToInsert;
-                if (Padre.Padre.Vector[1] != null)
-                {
-                    Padre.Padre.Vector[1].Izquierda = NodeToInsert.Derecha;
-                }
-            }
-            else if (indice == Degree - 2)
-            {
-                Padre.Padre.Vector[indice + 1] = NodeToInsert;
-                Padre.Padre.Vector[indice].Derecha = NodeToInsert.Izquierda;
-            }
-            else
-            {
-                for (int i = indice; i <= Degree - 2; i++)
-                {
-                    if (Padre.Padre.Vector[i].Data != null)
-                    {
-                        AuxCambio = Padre.Padre.Vector[i];
-                        Padre.Padre.Vector[i + 1] = AuxCambio;
-                    }
-                }
-                Padre.Padre.Vector[indice] = NodeToInsert;
-                Padre.Padre.Vector[indice - 1].Derecha = NodeToInsert.Izquierda;
-                if (Padre.Padre.Vector[indice + 1] != null)
-                {
-                    Padre.Padre.Vector[indice + 1].Izquierda = NodeToInsert.Derecha;
-                }
+                if (Padre.Vector[Rangos - 1] != null)
+                    Padre.Vector[Rangos - 1].Derecha = Padre.Vector[Rangos].Izquierda;
             }
         }
 
