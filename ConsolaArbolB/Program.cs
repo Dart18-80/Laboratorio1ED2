@@ -55,11 +55,13 @@ namespace ConsolaArbolB
                         Console.WriteLine("Ejm:1,2,3,4,5 (sin espacios entre numeros y comas)");
                         string ValorConj= Convert.ToString(Console.ReadLine());
                         string[] NumerosdeConj = ValorConj.Split(',');
-                        int lengtg = NumerosdeConj.Length-1;
-                        for (int i = 0; i < NumerosdeConj.Length-1; i++)
+                        int lengtg = NumerosdeConj.Length;
+                        int[] cadena = new int[lengtg];
+
+                        for (int i = 0; i < NumerosdeConj.Length; i++)
                         {
-                            int[] cadena=new int[lengtg];
                             cadena[i] = Convert.ToInt32(NumerosdeConj[i]);
+                            NuevoArbolCons.Insert(cadena[i], InvocarNumero);
                         }
 
                         Console.WriteLine("1) Seguir ingresando valores en conjunto");
