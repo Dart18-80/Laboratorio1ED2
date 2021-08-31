@@ -98,6 +98,7 @@ namespace LibreriaDeClasesED2
                         }
                         else
                         {
+                            VerificacionDeEntrada = false;
                             Insert(NewNodo, VectorPadre.Vector[i].Derecha, Comparacion);
                         }
                     }
