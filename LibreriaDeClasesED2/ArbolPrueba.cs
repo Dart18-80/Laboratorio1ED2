@@ -229,9 +229,17 @@ namespace LibreriaDeClasesED2
             NodoArbolB<T> Aux = new NodoArbolB<T>();
             NodoVector<T> Left = new NodoVector<T>(Degree);
             NodoVector<T> Right = new NodoVector<T>(Degree);
-
-            int Div = (Degree / 2) - 1;
-            Aux = UploadVector[Div - 1];
+            int Div = 0;
+            if (Impar())
+            {
+                Div = (Degree / 2) - 1;
+                Aux = UploadVector[Div];
+            }
+            else 
+            {
+                Div = (Degree / 2);
+                Aux = UploadVector[Div];
+            }
 
             for (int i = 0; i < Div; i++)
             {
@@ -255,7 +263,18 @@ namespace LibreriaDeClasesED2
 
 
         // Verifica si el nodo desvordado es la raiz
-
+        public bool Impar() 
+        {
+            int Comprobacion = Degree % 2;
+            if (Comprobacion == 0)
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
+        }
 
 
 
