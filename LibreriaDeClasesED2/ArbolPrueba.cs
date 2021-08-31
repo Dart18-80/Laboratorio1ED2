@@ -218,7 +218,7 @@ namespace LibreriaDeClasesED2
             NodoVector<T> Left = new NodoVector<T>(Degree);
             NodoVector<T> Right = new NodoVector<T>(Degree);
 
-            int Div = (Degree / 2) + 1;
+            int Div = (Degree / 2) - 1;
             Aux = UploadVector[Div-1];
 
             for (int i = 0; i<Div; i++) 
