@@ -310,23 +310,29 @@ namespace LibreriaDeClasesED2
                     int compar = Convert.ToInt32(Comparacion.DynamicInvoke(New, Capsule.Vector[i].Data));
                     if (compar == 0)
                     {
-                        Delete(New);
                         vacio = false;
+                        Delete(New);
                     }
                     else if (compar < 0)
                     {
                         if (Capsule.Vector[i].Izquierda != null)
                         {
                             Delete(New, Capsule.Vector[i].Izquierda, Comparacion);
-                            vacio = false;
                         }
                     }
                     else if (compar > 0)
                     {
-                        if (Capsule.Vector[i].Derecha != null)
+                        if (Capsule.Vector[i+1].Data!=null)
                         {
-                            Delete(New, Capsule.Vector[i].Derecha, Comparacion);
-                            vacio = false;
+                            i++;
+                            Delete(New, Capsule, Comparacion); //Si no se encontro se pasa al siguiente del vector si es que existe
+                        }
+                        else
+                        {
+                            if (Capsule.Vector[i].Derecha!=null)
+                            {
+                                Delete(New, Capsule.Vector[i].Derecha, Comparacion);
+                            }
                         }
                     }
                     else
