@@ -14,11 +14,6 @@ namespace LibreriaDeClasesED2
         public NodoVector(int MaxLenght)
         {
             Vector = new NodoArbolB<T>[MaxLenght];
-            for (int i = 0; i <= Vector.Length - 1; i++)
-            {
-                NodoArbolB<T> Nuevo = new NodoArbolB<T>();
-                Vector[i] = Nuevo;
-            }
         }
     }
 }
