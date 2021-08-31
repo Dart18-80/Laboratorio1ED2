@@ -7,7 +7,8 @@ namespace LibreriaDeClasesED2
     public class ArbolPrueba<T> where T : IComparable
     {
         NodoVector<T> Raiz;
-        int Degree; 
+        int Degree;
+        bool RaizEntrar = true;
 
         public ArbolPrueba(int Grado)
         {
@@ -17,36 +18,38 @@ namespace LibreriaDeClasesED2
             Raiz = NodoV;
         }
 
-        public void Insert(T NewNodo ,Delegate Comparacion) 
+        public void Insert(T NewNodo, Delegate Comparacion)
         {
             NodoArbolB<T> NuevoMe = new NodoArbolB<T>();
+            NuevoMe.Data = NewNodo;
             if (Raiz.Vector[0] == null)
             {
-                NuevoMe.Data = NewNodo;
                 Raiz.Vector[0] = NuevoMe;
             }
-            else 
+            else
             {
-                Insert(NuevoMe, Raiz,Comparacion);
+                Insert(NuevoMe, Raiz, Comparacion);
             }
         }
 
-        public void Insert(NodoArbolB<T> NewNodo, NodoVector<T> VectorPadre,Delegate Comparacion) 
+        public void Insert(NodoArbolB<T> NewNodo, NodoVector<T> VectorPadre, Delegate Comparacion)
         {
             if (VectorPadre.Vector[0].Izquierda == null)
             {
-                for (int i = 0; i <= Degree - 1; i++)
+                bool ciclo = true;
+                for (int i = 0; i <= Degree - 1 && ciclo == true; i++)
                 {
-                    if (VectorPadre.Vector[i].Data == null)
+                    if (VectorPadre.Vector[i] == null)
                     {
                         VectorPadre.Vector[i] = NewNodo;
+                        ciclo = false;
                     }
                 }
                 NodoArbolB<T> Auxiliar = new NodoArbolB<T>();
-                ShellSort(VectorPadre.Vector, Comparacion);
+                VectorPadre.Vector = ShellSort(VectorPadre.Vector, Comparacion);
                 if (FullVector(VectorPadre.Vector))
                 {
-                    if (RootComparacion(VectorPadre.Vector, Comparacion))
+                    if (RaizEntrar)
                     {
                         Auxiliar = UploadNode(VectorPadre.Vector);
                         Raiz.Vector = VaciarVector(Raiz.Vector);
@@ -54,28 +57,35 @@ namespace LibreriaDeClasesED2
                         Raiz.Vector[0].Izquierda.Padre = Raiz;
                         Raiz.Vector[0].Derecha.Padre = Raiz;
                         Raiz.Padre = null;
+                        RaizEntrar = false;
                     }
-                    else 
+                    else
                     {
                         Auxiliar = UploadNode(VectorPadre.Vector);
 
                     }
                 }
             }
-            else 
+            else
             {
                 int Comp = 0;
-                for (int i = 0; i<=Degree-2 && Comp == 0; i++) 
+                bool VerificacionDeEntrada = true;
+                for (int i = 0; i <= Degree - 2 && VerificacionDeEntrada; i++)
                 {
-                    Comp = Convert.ToInt32(Comparacion.DynamicInvoke(NewNodo.Data, VectorPadre.Vector[0].Data));
+                    Comp = Convert.ToInt32(Comparacion.DynamicInvoke(NewNodo.Data, VectorPadre.Vector[i].Data));
                     if (Comp < 0)
                     {
                         Comp = -1;
+                        VerificacionDeEntrada = false;
                         Insert(NewNodo, VectorPadre.Vector[i].Izquierda, Comparacion);
                     }
                     else
                     {
-                        if (i == Degree-2) 
+                        if (VectorPadre.Vector[i] != null)
+                        {
+                            VerificacionDeEntrada = true;
+                        }
+                        else
                         {
                             Insert(NewNodo, VectorPadre.Vector[i].Derecha, Comparacion);
                         }
@@ -86,13 +96,13 @@ namespace LibreriaDeClasesED2
         }
 
         //Insertar Un desvordamiento que no es la Raiz 
-        public void InsertNotRoot(NodoArbolB<T> NodeToInsert, NodoVector<T> Padre, Delegate Comparacion) 
+        public void InsertNotRoot(NodoArbolB<T> NodeToInsert, NodoVector<T> Padre, Delegate Comparacion)
         {
             int indice = -1;
-            for (int i = 0; i <= Degree-2; i++) 
+            for (int i = 0; i <= Degree - 2; i++)
             {
-                int CompAfter = Convert.ToInt32(Comparacion.DynamicInvoke(NodeToInsert.Data,Padre.Vector[i].Data));
-                if (indice == -1) 
+                int CompAfter = Convert.ToInt32(Comparacion.DynamicInvoke(NodeToInsert.Data, Padre.Vector[i].Data));
+                if (indice == -1)
                 {
                     if (CompAfter < 0)
                     {
@@ -142,7 +152,7 @@ namespace LibreriaDeClasesED2
                 }
                 Padre.Padre.Vector[indice] = NodeToInsert;
                 Padre.Padre.Vector[indice - 1].Derecha = NodeToInsert.Izquierda;
-                if (Padre.Padre.Vector[indice+1] != null) 
+                if (Padre.Padre.Vector[indice + 1] != null)
                 {
                     Padre.Padre.Vector[indice + 1].Izquierda = NodeToInsert.Derecha;
                 }
@@ -150,9 +160,9 @@ namespace LibreriaDeClasesED2
         }
 
         //Vaciar vector
-        public NodoArbolB<T>[] VaciarVector(NodoArbolB<T>[] NodoAVaciar) 
+        public NodoArbolB<T>[] VaciarVector(NodoArbolB<T>[] NodoAVaciar)
         {
-            for (int i = 0; i <= Degree-1; i++) 
+            for (int i = 0; i <= Degree - 1; i++)
             {
                 NodoAVaciar[i] = null;
             }
@@ -180,51 +190,43 @@ namespace LibreriaDeClasesED2
         }
         */
         //Ordenar el Vector 
-        public void ShellSort(NodoArbolB<T>[] Ordenar, Delegate Condicion)
+        public NodoArbolB<T>[] ShellSort(NodoArbolB<T>[] Ordenar, Delegate Condicion)
         {
-            int Salto = 0;
-            int Ciclo = 0;
-            T Aux = default;
-            int e = 0;
-            Salto = Ordenar.Length / 2;
-            while (Salto > 0)
+            for (int k = 0; k < Degree - 1; k++)
             {
-                Ciclo = 1;
-                while (Ciclo != 0)
+                for (int f = 0; f < (Degree - 1) - k; f++)
                 {
-                    Ciclo = 0;
-                    e = 1;
-                    while (e <= (Ordenar.Length - Salto))
+                    if (Ordenar[f] != null && Ordenar[f + 1] != null)
                     {
-                        int Comparacion = Convert.ToInt32(Condicion.DynamicInvoke(Ordenar[e - 1].Data, Ordenar[(e - 1) + Salto].Data));
-                        if (Comparacion > 0)
+                        int Comparar = Convert.ToInt32(Condicion.DynamicInvoke(Ordenar[f].Data, Ordenar[f + 1].Data));
+                        if (Comparar > 0)
                         {
-                            Aux = Ordenar[(e - 1) + Salto].Data;
-                            Ordenar[(e - 1) + Salto].Data = Ordenar[e - 1].Data;
-                            Ordenar[(e - 1)].Data = Aux;
-                            Ciclo = 1;
+                            NodoArbolB<T> aux;
+                            aux = Ordenar[f];
+                            Ordenar[f] = Ordenar[f + 1];
+                            Ordenar[f + 1] = aux;
                         }
-                        e++;
                     }
                 }
-                Salto = Salto / 2;
             }
+            return Ordenar;
         }
         // Separacion de Nodo por desvordamiento
-        public NodoArbolB<T> UploadNode(NodoArbolB<T>[] UploadVector) 
+        public NodoArbolB<T> UploadNode(NodoArbolB<T>[] UploadVector)
         {
             NodoArbolB<T> Aux = new NodoArbolB<T>();
             NodoVector<T> Left = new NodoVector<T>(Degree);
             NodoVector<T> Right = new NodoVector<T>(Degree);
 
-            int Div = (Degree / 2) + 1;
-            Aux = UploadVector[Div-1];
-            for (int i = 0; i<Div; i++) 
+            int Div = (Degree / 2) - 1;
+            Aux = UploadVector[Div - 1];
+
+            for (int i = 0; i < Div; i++)
             {
-                Left.Vector[i] =UploadVector[i];
+                Left.Vector[i] = UploadVector[i];
             }
             int Begin = 0;
-            for (int i = UploadVector.Length-1; i>Div; i++) 
+            for (int i = Degree - 1; i > Div; i--)
             {
                 Right.Vector[Begin] = UploadVector[i];
                 Begin++;
@@ -239,16 +241,16 @@ namespace LibreriaDeClasesED2
             return Aux;
         }
 
-        
+
         // Verifica si el nodo desvordado es la raiz
-        public bool RootComparacion(NodoArbolB<T>[] Padre, Delegate Comparacion) 
+        public bool RootComparacion(NodoArbolB<T>[] Padre, Delegate Comparacion)
         {
             bool Retorno = false;
             int Verificacion;
-            for (int i = 0; i <= Padre.Length-1 && Retorno == false; i++)
+            for (int i = 0; i <= Padre.Length - 1 && Retorno == false; i++)
             {
                 Verificacion = Convert.ToInt32(Comparacion.DynamicInvoke(Padre[i].Data, Raiz.Vector[i].Data));
-                if (Verificacion != 0) 
+                if (Verificacion != 0)
                 {
                     Retorno = true;
                 }
@@ -260,30 +262,45 @@ namespace LibreriaDeClasesED2
 
 
         // Verifica si en verdad tiene todos los espacios del vector llenos
-        public bool FullVector(NodoArbolB<T>[] Verificar) 
+        public bool FullVector(NodoArbolB<T>[] Verificar)
         {
             bool Vacio = true;
-            for (int i = 0; i <= Degree-1; i++) 
+            for (int i = 0; i <= Degree - 1; i++)
             {
-                if (Verificar[i].Data == null) 
+                if (Verificar[i] == null)
                 {
                     Vacio = false;
                 }
             }
-            return Vacio; 
-        }
-
-        public bool HasNode(NodoArbolB<T>[] Verificar, int i) 
-        {
-            bool Vacio = false;
-            if (Verificar[i].Data == null) 
-            {
-                Vacio = true;
-            }
             return Vacio;
         }
 
-        public void Delete(T New, NodoVector<T> Capsule, Delegate Comparacion) 
+        public int HasNode(NodoArbolB<T>[] Verificar)
+        {
+            int i = 0;
+            return HasNode(Verificar, i);
+        }
+
+        public int HasNode(NodoArbolB<T>[] Verificar, int Contador)
+        {
+            if (Contador == Degree - 1)
+            {
+                return Contador;
+            }
+            else
+            {
+                if (Verificar[Contador] != null)
+                {
+                    return HasNode(Verificar, Contador + 1);
+                }
+                else
+                {
+                    return Contador;
+                }
+            }
+        }
+
+        public void Delete(T New, NodoVector<T> Capsule, Delegate Comparacion)
         {
             int i = 0;
             bool vacio = true;
@@ -292,20 +309,20 @@ namespace LibreriaDeClasesED2
                 if (Capsule.Vector[i].Data != null)
                 {
                     int compar = Convert.ToInt32(Comparacion.DynamicInvoke(New, Capsule.Vector[i].Data));
-                    if (compar==0)
+                    if (compar == 0)
                     {
                         Delete(New);
                         vacio = false;
                     }
-                    else if (compar<0)
+                    else if (compar < 0)
                     {
-                        if (Capsule.Vector[i].Izquierda!=null)
+                        if (Capsule.Vector[i].Izquierda != null)
                         {
                             Delete(New, Capsule.Vector[i].Izquierda, Comparacion);
                             vacio = false;
                         }
                     }
-                    else if(compar>0)
+                    else if (compar > 0)
                     {
                         if (Capsule.Vector[i].Derecha != null)
                         {
@@ -321,9 +338,9 @@ namespace LibreriaDeClasesED2
                 i++;
             }
         }
-        public void Delete(T New) 
+        public void Delete(T New)
         {
-        
+
         }
     }
 }
