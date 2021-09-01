@@ -9,6 +9,7 @@ namespace LibreriaDeClasesED2
         NodoVector<T> Raiz;
         int Degree;
         bool RaizEntrar = true;
+        bool RaizSubir = false; 
 
         public ArbolPrueba(int Grado)
         {
@@ -41,6 +42,10 @@ namespace LibreriaDeClasesED2
                 {
                     if (VectorPadre.Vector[i] == null)
                     {
+                        if (RaizSubir) 
+                        {
+                            
+                        }
                         VectorPadre.Vector[i] = NewNodo;
                         ciclo = false;
                     }
@@ -89,6 +94,7 @@ namespace LibreriaDeClasesED2
                         Comp = -1;
                         VerificacionDeEntrada = false;
                         Insert(NewNodo, VectorPadre.Vector[i].Izquierda, Comparacion);
+                        VectorPadre.Vector[i].Izquierda.Padre = VectorPadre;
                     }
                     else
                     {
@@ -100,6 +106,7 @@ namespace LibreriaDeClasesED2
                         {
                             VerificacionDeEntrada = false;
                             Insert(NewNodo, VectorPadre.Vector[i].Derecha, Comparacion);
+                            VectorPadre.Vector[i].Derecha.Padre = VectorPadre;
                         }
                     }
                 }
