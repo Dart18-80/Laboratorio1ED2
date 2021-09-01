@@ -137,7 +137,7 @@ namespace LibreriaDeClasesED2
             }
             else if (Rangos == Degree - 1)
             {
-                if (Padre.Padre.Vector == Raiz.Vector)//el padre.padre es nulo por lo que el vector no existe
+                if (FullVector(Raiz.Vector))//el padre.padre es nulo por lo que el vector no existe
                 {
                     Aux = UploadNode(Padre.Vector);
                     Raiz.Vector = VaciarVector(Raiz.Vector);
