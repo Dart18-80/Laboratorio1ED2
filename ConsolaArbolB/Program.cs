@@ -81,6 +81,8 @@ namespace ConsolaArbolB
                     {
                         Console.WriteLine("Ingrese el valor que desea eliminar:");
                         int valorElim = Convert.ToInt32(Console.ReadLine());
+                        
+                        NuevoArbolCons.Delete(valorElim, NuevoArbolCons.Raiz ,InvocarNumero );
 
                         Console.WriteLine("1) Seguir elimianndo valores");
                         Console.WriteLine("2) Salir de la eliminacion");

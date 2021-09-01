@@ -316,12 +316,13 @@ namespace LibreriaDeClasesED2
         public void Delete(T New, NodoVector<T> Capsule, Delegate Comparacion)
         {
 
-            for (int i = 0; i < Capsule.Vector.Length-1; i++)
+            bool verificar = true;
+            for (int i = 0; i < Capsule.Vector.Length-1 && verificar; i++)
             {
                 int comp = Convert.ToInt32(Comparacion.DynamicInvoke(New, Capsule.Vector[i].Data));
                 if (comp==0)
                 {
-                    i = Capsule.Vector.Length;
+                    verificar = false;
                     Delete(i, Capsule);
                 }
                 else if (comp<0)
@@ -343,16 +344,41 @@ namespace LibreriaDeClasesED2
         }
         public void Delete(int num, NodoVector<T> Vector)
         {
-            if (Vector.Vector[num].Derecha==null && Vector.Vector[num].Izquierda == null)
+            if (Vector.Vector[num].Derecha==null && Vector.Vector[num].Izquierda == null)//Verificar si no tiene hijos
             {
-                if (Vector.Padre==null)
+                if (Vector.Padre==null)//Verificar si no tiene padre
                 {
-                    int lon = Vector.Vector.Length - 2;
+                    if (Vector.Vector[num+1]==null)
+                    {
+                        Vector.Vector[num] = null;
+                    }
+                    else
+                    {
+                        Vector.Vector[num] = null;
+                        OrdenarEspacios(Vector, num);
+                    }
+                }
+                else// Es un vector sin hijos pero con un padre HOJA
+                {
+                    int minimo = Vector.Vector.Length/4;
+                }
+            }// si tiene hijos
+        }
 
+        public void OrdenarEspacios(NodoVector<T> Vector, int num) 
+        {
+            bool verificacion = true;
+            for (int i = num; i < Vector.Vector.Length-2 && verificacion; i++)
+            {
+                NodoArbolB<T> Aux = null;
+                if (Vector.Vector[i+1]!=null)
+                {
+                    Aux = Vector.Vector[i + 1];
+                    Vector.Vector[i] = Aux;
+                    Vector.Vector[i + 1] = null;
                 }
             }
         }
-
         public T BuscarData(T Buscar,NodoVector<T> Padre, Delegate Comparacion)
         {
             NodoArbolB<T> Aux = new NodoArbolB<T>();
