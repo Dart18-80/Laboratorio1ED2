@@ -133,10 +133,11 @@ namespace LibreriaDeClasesED2
                     Ciclo = false;
                 }
             }
+            int Comp = Convert.ToInt16(Comparacion.DynamicInvoke(NodeToInsert.Data,Padre.Vector[0].Data));
             Padre.Vector = ShellSort(Padre.Vector, Comparacion);
-            if (Rangos == 0)
+            if (Comp < 0)
             {
-                Padre.Vector[Rangos + 1].Izquierda = Padre.Vector[Rangos].Derecha;
+                Padre.Vector[Rangos].Izquierda = Padre.Vector[Rangos-1].Derecha;
             }
             else if (Rangos == Degree - 1)
             {
