@@ -6,7 +6,7 @@ namespace LibreriaDeClasesED2
 {
     public class ArbolPrueba<T> where T : IComparable
     {
-        NodoVector<T> Raiz;
+        public NodoVector<T> Raiz;
         int Degree;
         bool RaizEntrar = true;
         bool RaizSubir = false; 
@@ -347,6 +347,54 @@ namespace LibreriaDeClasesED2
                     int lon = Vector.Vector.Length - 2;
 
                 }
+            }
+        }
+
+        public T BuscarData(T Buscar,NodoVector<T> Padre, Delegate Comparacion)
+        {
+            NodoArbolB<T> Aux = new NodoArbolB<T>();
+            if (Raiz != null)
+            {
+                if (Padre != null)
+                {
+                    bool Encontrado = true;
+                    for (int i = 0; i <= HasNode(Padre.Vector) && Encontrado; i++)
+                    {
+                        if (Padre.Vector[i] != null)
+                        {
+                            int Comp = Convert.ToInt32(Comparacion.DynamicInvoke(Buscar, Padre.Vector[i].Data));
+                            if (Comp == 0)
+                            {
+                                Encontrado = false;
+                                Aux.Data = Padre.Vector[i].Data;
+                            }
+                            else if (Comp < 0)
+                            {
+                                Encontrado = false;
+                                Aux.Data = BuscarData(Buscar, Padre.Vector[i].Izquierda, Comparacion);
+                            }
+                            else
+                            {
+                                if(HasNode(Padre.Vector) == i)
+                                    Aux.Data = BuscarData(Buscar, Padre.Vector[i].Derecha, Comparacion);
+                            }
+                        }
+                        else
+                        {
+                            Encontrado = false;
+                            return Aux.Data;
+                        }
+                    }
+                    return Aux.Data;
+                }
+                else 
+                {
+                    return Aux.Data;
+                }
+            }
+            else 
+            {
+                return Aux.Data;
             }
         }
     }
