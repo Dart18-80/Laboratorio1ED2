@@ -24,7 +24,8 @@ namespace ConsolaArbolB
                 Console.WriteLine("2) Ingresar valores en conjunto");
                 Console.WriteLine("3) Eliminar");
                 Console.WriteLine("4) Buscar");
-                Console.WriteLine("5) Salir del Programa");
+                Console.WriteLine("5) Cambiar el grado");
+                Console.WriteLine("6) Salir del Programa");
                 int opcion = Convert.ToInt32(Console.ReadLine());
 
                 if (opcion == 1)
@@ -98,11 +99,15 @@ namespace ConsolaArbolB
                 {
 
                 }
-                else if (opcion == 5)
+                else if (opcion == 6)
                 {
                     OpArbol = false;
                 }
-                else
+                else if (opcion==5)
+                {
+                   //se cambia en grado
+                }
+                else 
                 {
                     OpArbol = false;
                 }

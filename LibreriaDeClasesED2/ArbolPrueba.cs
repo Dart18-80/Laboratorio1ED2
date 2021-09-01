@@ -329,6 +329,7 @@ namespace LibreriaDeClasesED2
                 {
                     if (Capsule.Vector[i].Izquierda!=null)
                     {
+                        verificar = false;
                         Delete(New, Capsule.Vector[i].Izquierda, Comparacion);
                     }
                 }
@@ -336,6 +337,7 @@ namespace LibreriaDeClasesED2
                 {
                     if (Capsule.Vector[i+1]==null)
                     {
+                        verificar = false;
                         Delete(New, Capsule.Vector[i].Derecha, Comparacion);
                     }
                     else
@@ -382,11 +384,14 @@ namespace LibreriaDeClasesED2
                             PoseeHojas++;
                         }
                     }
-                    if (PoseeHojas==Minposible)
+                    if (PoseeHojas==Minposible)//posee lo mismo de las hojas
                     {
+                        if (true)//se verifica si alguno de sus hermanos tiene mas del minimo
+                        {
 
+                        }
                     }
-                    else if (Minposible<PoseeHojas)
+                    else if (Minposible<PoseeHojas)//tiene mas del minimo en las hojas
                     {
                         Vector.Vector[num] = null;
                         OrdenarEspacios(Vector, num);
@@ -396,6 +401,15 @@ namespace LibreriaDeClasesED2
             }// si tiene hijos
         }
 
+        public bool VerHermanosMinimo(NodoVector<T> Vector) 
+        {
+            bool Verificacion = true;
+            if ()
+            {
+
+            }
+            return Verificacion;
+        }
         public void OrdenarEspacios(NodoVector<T> Vector, int num) 
         {
             bool verificacion = true;
