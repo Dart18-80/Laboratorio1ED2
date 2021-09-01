@@ -324,7 +324,7 @@ namespace LibreriaDeClasesED2
                 if (comp==0)
                 {
                     verificar = false;
-                    Delete(i, Capsule, Comparacion);
+                    Delete(i, Capsule);
                 }
                 else if (comp<0)
                 {
@@ -348,7 +348,7 @@ namespace LibreriaDeClasesED2
 
             }
         }
-        public void Delete(int num, NodoVector<T> Vector, Delegate Comparacion)
+        public void Delete(int num, NodoVector<T> Vector)
         {
             if (Vector.Vector[num].Derecha==null && Vector.Vector[num].Izquierda == null)//Verificar si no tiene hijos
             {
@@ -388,7 +388,7 @@ namespace LibreriaDeClasesED2
                     {
                         if (true)//se verifica si alguno de sus hermanos tiene mas del minimo
                         {
-                            VerHermanosMinimo(Vector, Vector.Vector[num].Data, Comparacion);////////////
+                            VerHermanosMinimo(Vector, Vector.Vector[num].Data);////////////
                         }
                     }
                     else if (Minposible<PoseeHojas)//tiene mas del minimo en las hojas
@@ -408,21 +408,13 @@ namespace LibreriaDeClasesED2
             }
         }
 
-        public bool VerHermanosMinimo(NodoVector<T> Vector, object N, Delegate Comparacion) 
+        public bool VerHermanosMinimo(NodoVector<T> Vector, object N) 
         {
             NodoArbolB<T>[] VectorPadre = Vector.Padre.Vector;
-            NodoArbolB<T> Aux = null;
-
-            bool verificacion = true;
-            for (int i = 0; i < Vector.Padre.Vector.Length; i++)//se necesita un ciclo buuscando si es menor o mayor
+            NodoVector<T> Aux = null;
+            for (int i = 0; i < Vector.Padre.Vector.Length; i++)
             {
-                int comp = Convert.ToInt32(Comparacion.DynamicInvoke(N, VectorPadre[i].Data));
-                if (comp>0)//menor
-                {
-                    verificacion = false;
-                    Aux.Data = VectorPadre[i].Data;
-                }
-
+              
             }
             return false;
         }
