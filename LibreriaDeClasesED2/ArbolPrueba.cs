@@ -263,11 +263,11 @@ namespace LibreriaDeClasesED2
             int Comprobacion = Degree % 2;
             if (Comprobacion == 0)
             {
-                return true;
+                return true;// es par
             }
             else 
             {
-                return false;
+                return false;// es impar
             }
         }
 
@@ -360,7 +360,33 @@ namespace LibreriaDeClasesED2
                 }
                 else// Es un vector sin hijos pero con un padre HOJA
                 {
-                    int minimo = Vector.Vector.Length/4;
+                    int Minposible = 0;
+                    int PoseeHojas = 0;
+                    if (Impar())
+                    {
+                        Minposible = (Degree / 2)-1;
+                    }
+                    else
+                    {
+                        Minposible = (Degree / 2);
+                    }
+
+                    for (int i = 0; i < Degree-2; i++)
+                    {
+                        if (Vector.Vector[i]!=null)
+                        {
+                            PoseeHojas++;
+                        }
+                    }
+
+                    if (PoseeHojas==Minposible)
+                    {
+
+                    }
+                    else if (PoseeHojas>Minposible)
+                    {
+
+                    }
                 }
             }// si tiene hijos
         }
