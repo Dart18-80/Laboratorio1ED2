@@ -313,7 +313,7 @@ namespace LibreriaDeClasesED2
             }
         }
 
-        public void Delete(T New, NodoVector<T> Capsule, Delegate Comparacion)
+        public void Delete(object New, NodoVector<T> Capsule, Delegate Comparacion)
         {
 
             bool verificar = true;
