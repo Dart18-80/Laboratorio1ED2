@@ -106,7 +106,10 @@ namespace LibreriaDeClasesED2
                         {
                             VerificacionDeEntrada = false;
                             Insert(NewNodo, VectorPadre.Vector[i].Derecha, Comparacion);
-                            VectorPadre.Vector[i].Derecha.Padre = VectorPadre;
+                            if (VectorPadre.Vector[i]!=null)
+                            {
+                                VectorPadre.Vector[i].Derecha.Padre = VectorPadre;
+                            }
                         }
                     }
                 }
