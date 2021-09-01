@@ -378,15 +378,15 @@ namespace LibreriaDeClasesED2
                             PoseeHojas++;
                         }
                     }
-
                     if (PoseeHojas==Minposible)
                     {
 
                     }
-                    else if (PoseeHojas>Minposible)
+                    else if (Minposible<PoseeHojas)
                     {
 
                     }
+                    else{}
                 }
             }// si tiene hijos
         }
