@@ -343,7 +343,7 @@ namespace LibreriaDeClasesED2
                     }
                     else
                     {
-
+                        Delete(New, Capsule, Comparacion);
                     }
                 }
 
@@ -405,7 +405,7 @@ namespace LibreriaDeClasesED2
         public bool VerHermanosMinimo(NodoVector<T> Vector) 
         {
             bool Verificacion = true;
-            if (Vector.Padre.Vector[].Derecha == Vector)
+            if (Vector.Padre.Vector[] == Vector)
             {
 
             }
