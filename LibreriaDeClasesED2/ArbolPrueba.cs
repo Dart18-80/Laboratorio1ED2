@@ -334,9 +334,13 @@ namespace LibreriaDeClasesED2
                 }
                 else
                 {
-                    if (i==(Capsule.Vector.Length-2))
+                    if (Capsule.Vector[i+1]==null)
                     {
                         Delete(New, Capsule.Vector[i].Derecha, Comparacion);
+                    }
+                    else
+                    {
+
                     }
                 }
 
@@ -384,7 +388,8 @@ namespace LibreriaDeClasesED2
                     }
                     else if (Minposible<PoseeHojas)
                     {
-
+                        Vector.Vector[num] = null;
+                        OrdenarEspacios(Vector, num);
                     }
                     else{}
                 }
