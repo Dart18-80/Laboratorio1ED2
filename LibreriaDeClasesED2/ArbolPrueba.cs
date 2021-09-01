@@ -324,7 +324,7 @@ namespace LibreriaDeClasesED2
                 if (comp==0)
                 {
                     verificar = false;
-                    Delete(i, Capsule);
+                    Delete(i, Capsule, Comparacion);
                 }
                 else if (comp<0)
                 {
@@ -343,13 +343,12 @@ namespace LibreriaDeClasesED2
                     }
                     else
                     {
-                        Delete(New, Capsule, Comparacion);
                     }
                 }
 
             }
         }
-        public void Delete(int num, NodoVector<T> Vector)
+        public void Delete(int num, NodoVector<T> Vector, Delegate Comparacion)
         {
             if (Vector.Vector[num].Derecha==null && Vector.Vector[num].Izquierda == null)//Verificar si no tiene hijos
             {
@@ -389,7 +388,7 @@ namespace LibreriaDeClasesED2
                     {
                         if (true)//se verifica si alguno de sus hermanos tiene mas del minimo
                         {
-
+                            VerHermanosMinimo(Vector, Vector.Vector[num].Data, Comparacion);////////////
                         }
                     }
                     else if (Minposible<PoseeHojas)//tiene mas del minimo en las hojas
@@ -400,20 +399,32 @@ namespace LibreriaDeClasesED2
                     else{}
                 }
             }// si tiene hijos
-        }
-
-        public bool VerHermanosMinimo(NodoVector<T> Vector) 
-        {
-            bool Verificacion = true;
-            if (Vector.Padre.Vector[] == Vector)
-            {
-
-            }
             else
             {
+                if (Vector.Padre == null)//Ver si tiene padre
+                {
+
+                }
+            }
+        }
+
+        public bool VerHermanosMinimo(NodoVector<T> Vector, object N, Delegate Comparacion) 
+        {
+            NodoArbolB<T>[] VectorPadre = Vector.Padre.Vector;
+            NodoArbolB<T> Aux = null;
+
+            bool verificacion = true;
+            for (int i = 0; i < Vector.Padre.Vector.Length; i++)//se necesita un ciclo buuscando si es menor o mayor
+            {
+                int comp = Convert.ToInt32(Comparacion.DynamicInvoke(N, VectorPadre[i].Data));
+                if (comp>0)//menor
+                {
+                    verificacion = false;
+                    Aux.Data = VectorPadre[i].Data;
+                }
 
             }
-            return Verificacion;
+            return false;
         }
         public void OrdenarEspacios(NodoVector<T> Vector, int num) 
         {
