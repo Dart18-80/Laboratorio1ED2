@@ -405,7 +405,7 @@ namespace LibreriaDeClasesED2
                 }
             }
         }
-        public T BuscarData(T Buscar,NodoVector<T> Padre, Delegate Comparacion)
+        public T BuscarData(object Buscar,NodoVector<T> Padre, Delegate Comparacion)
         {
             NodoArbolB<T> Aux = new NodoArbolB<T>();
             if (Raiz != null)
@@ -451,6 +451,10 @@ namespace LibreriaDeClasesED2
             {
                 return Aux.Data;
             }
+        }
+        public void EliminarArbol() 
+        {
+            Raiz = null;
         }
     }
 }
