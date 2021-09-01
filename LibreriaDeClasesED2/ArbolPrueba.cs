@@ -312,51 +312,42 @@ namespace LibreriaDeClasesED2
 
         public void Delete(T New, NodoVector<T> Capsule, Delegate Comparacion)
         {
-            int i = 0;
-            bool vacio = true;
-            while (vacio)
+
+            for (int i = 0; i < Capsule.Vector.Length-1; i++)
             {
-                if (Capsule.Vector[i].Data != null)
+                int comp = Convert.ToInt32(Comparacion.DynamicInvoke(New, Capsule.Vector[i].Data));
+                if (comp==0)
                 {
-                    int compar = Convert.ToInt32(Comparacion.DynamicInvoke(New, Capsule.Vector[i].Data));
-                    if (compar == 0)
+                    i = Capsule.Vector.Length;
+                    Delete(i, Capsule);
+                }
+                else if (comp<0)
+                {
+                    if (Capsule.Vector[i].Izquierda!=null)
                     {
-                        vacio = false;
-                        Delete(New);
-                    }
-                    else if (compar < 0)
-                    {
-                        if (Capsule.Vector[i].Izquierda != null)
-                        {
-                            Delete(New, Capsule.Vector[i].Izquierda, Comparacion);
-                        }
-                    }
-                    else if (compar > 0)
-                    {
-                        if (Capsule.Vector[i+1].Data!=null)
-                        {
-                            i++;
-                            Delete(New, Capsule, Comparacion); //Si no se encontro se pasa al siguiente del vector si es que existe
-                        }
-                        else
-                        {
-                            if (Capsule.Vector[i].Derecha!=null)
-                            {
-                                Delete(New, Capsule.Vector[i].Derecha, Comparacion);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        vacio = false; // no se encontro el valor en el arbol
+                        Delete(New, Capsule.Vector[i].Izquierda, Comparacion);
                     }
                 }
-                i++;
+                else
+                {
+                    if (i==(Capsule.Vector.Length-2))
+                    {
+                        Delete(New, Capsule.Vector[i].Derecha, Comparacion);
+                    }
+                }
+
             }
         }
-        public void Delete(T New)
+        public void Delete(int num, NodoVector<T> Vector)
         {
+            if (Vector.Vector[num].Derecha==null && Vector.Vector[num].Izquierda == null)
+            {
+                if (Vector.Padre==null)
+                {
+                    int lon = Vector.Vector.Length - 2;
 
+                }
+            }
         }
 
         public T BuscarData(T Buscar,NodoVector<T> Padre, Delegate Comparacion)
