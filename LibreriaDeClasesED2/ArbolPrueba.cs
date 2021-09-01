@@ -405,7 +405,11 @@ namespace LibreriaDeClasesED2
         public bool VerHermanosMinimo(NodoVector<T> Vector) 
         {
             bool Verificacion = true;
-            if ()
+            if (Vector.Padre.Vector[].Derecha == Vector)
+            {
+
+            }
+            else
             {
 
             }
