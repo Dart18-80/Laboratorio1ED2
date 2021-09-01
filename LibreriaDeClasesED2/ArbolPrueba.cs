@@ -136,7 +136,7 @@ namespace LibreriaDeClasesED2
             Padre.Vector = ShellSort(Padre.Vector, Comparacion);
             if (Rangos == 0)
             {
-                Padre.Vector[Rangos + 1].Izquierda = NodeToInsert.Derecha;
+                Padre.Vector[Rangos + 1].Izquierda = Padre.Vector[Rangos].Derecha;
             }
             else if (Rangos == Degree - 1)
             {
