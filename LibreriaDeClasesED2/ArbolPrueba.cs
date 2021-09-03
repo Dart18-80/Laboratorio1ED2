@@ -324,7 +324,7 @@ namespace LibreriaDeClasesED2
                 if (comp==0)
                 {
                     verificar = false;
-                    Delete(i, Capsule);
+                    DeleteForm(i, Capsule, Comparacion);
                 }
                 else if (comp<0)
                 {
@@ -348,7 +348,7 @@ namespace LibreriaDeClasesED2
 
             }
         }
-        public void Delete(int num, NodoVector<T> Vector)
+        public void DeleteForm(int num, NodoVector<T> Vector, Delegate Comparacion)
         {
             if (Vector.Vector[num].Derecha==null && Vector.Vector[num].Izquierda == null)//Verificar si no tiene hijos
             {
@@ -386,10 +386,7 @@ namespace LibreriaDeClasesED2
                     }
                     if (PoseeHojas==Minposible)//posee lo mismo de las hojas
                     {
-                        if (true)//se verifica si alguno de sus hermanos tiene mas del minimo
-                        {
-                            VerHermanosMinimo(Vector, Vector.Vector[num].Data);////////////
-                        }
+                            VerHermanosMinimo(Vector, Comparacion, Minposible, num); ////////////
                     }
                     else if (Minposible<PoseeHojas)//tiene mas del minimo en las hojas
                     {
@@ -408,15 +405,67 @@ namespace LibreriaDeClasesED2
             }
         }
 
-        public bool VerHermanosMinimo(NodoVector<T> Vector, object N) 
+        public void VerHermanosMinimo(NodoVector<T> Vector, Delegate Comparision, int Minposible, int numEliminar) 
         {
             NodoArbolB<T>[] VectorPadre = Vector.Padre.Vector;
-            NodoVector<T> Aux = null;
-            for (int i = 0; i < Vector.Padre.Vector.Length; i++)
+            bool verificacion = true;
+            int numpa = 0;
+            int espacioPa = 0;
+            int PoseeEnVec = 0;
+            for (int i = 0; i <= Vector.Padre.Vector.Length -1 && verificacion ; i++)//buscar el espacio del data padre
             {
-              
+                int compa = Convert.ToInt32(Comparision.DynamicInvoke(Vector.Vector[0].Data, VectorPadre[i].Data));
+                if (compa<0)
+                {
+                    verificacion = false;
+                    espacioPa = i;
+                    numpa = -1; //Se encuentra en el hijo izquierdo 
+                }
+                if (i==Vector.Padre.Vector.Length-1)
+                {
+                    verificacion = false;
+                    espacioPa = i;
+                    numpa = 1; //Se encuentra en el hijo derecho
+                }
             }
-            return false;
+
+            if (numpa==-1)
+            {
+                if (espacioPa==0)//es el primero y el vector solo tiene un padre
+                {
+                    for (int i = 0; i <= Vector.Vector.Length-1; i++)
+                    {
+                        if (VectorPadre[espacioPa].Derecha.Vector[i]!=null)
+                        {
+                            PoseeEnVec++;
+                        }
+                    }
+                    if (PoseeEnVec>Minposible)
+                    {
+                        T aux=default;
+                        aux=VectorPadre[espacioPa].Data;
+                        VectorPadre[espacioPa].Data = VectorPadre[espacioPa].Derecha.Vector[0].Data;
+                        NodoArbolB<T> Auxiliar = new NodoArbolB<T>();
+                        Auxiliar.Data = aux;
+                        VectorPadre[espacioPa].Derecha.Vector[0] = null;
+                        Vector.Vector[numEliminar] = null;
+                        Vector.Vector[Minposible] = Auxiliar;
+                        OrdenarEspacios(Vector, numEliminar);
+                        OrdenarEspacios(VectorPadre[espacioPa].Derecha, 0);
+                        int puria = 0;
+                    }
+                }
+                else if (espacioPa==VectorPadre.Length-2)
+                {
+
+                }
+            }
+        }
+
+        public int ContarHijos(NodoVector<T> Vector) 
+        {
+
+            return 0;
         }
         public void OrdenarEspacios(NodoVector<T> Vector, int num) 
         {
