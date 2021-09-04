@@ -409,9 +409,9 @@ namespace LibreriaDeClasesED2
         {
             NodoArbolB<T>[] VectorPadre = Vector.Padre.Vector;
             bool verificacion = true;
-            int numpa = 0;
-            int espacioPa = 0;
-            int PoseeEnVec = 0;
+            int numpa = 0;//el hijo donde se encuentra el que se desea eliminar
+            int espacioPa = 0;//numero que indica en que espacio del vector se encuentra el padre que se esta manejando
+            int PoseeEnVec = 0;//
             for (int i = 0; i <= Vector.Padre.Vector.Length -1 && verificacion ; i++)//buscar el espacio del data padre
             {
                 int compa = Convert.ToInt32(Comparision.DynamicInvoke(Vector.Vector[0].Data, VectorPadre[i].Data));
@@ -421,7 +421,7 @@ namespace LibreriaDeClasesED2
                     espacioPa = i;
                     numpa = -1; //Se encuentra en el hijo izquierdo 
                 }
-                if (i==Vector.Padre.Vector.Length-1)
+                else if(VectorPadre[i+1]==null)
                 {
                     verificacion = false;
                     espacioPa = i;
@@ -431,7 +431,7 @@ namespace LibreriaDeClasesED2
 
             if (numpa==-1)
             {
-                if (espacioPa==0)//es el primero y el vector solo tiene un padre
+                if (espacioPa==0)//es el primero y el vector solo tiene un padre que comparte hermano
                 {
                     for (int i = 0; i <= Vector.Vector.Length-1; i++)
                     {
@@ -452,20 +452,75 @@ namespace LibreriaDeClasesED2
                         Vector.Vector[Minposible] = Auxiliar;
                         OrdenarEspacios(Vector, numEliminar);
                         OrdenarEspacios(VectorPadre[espacioPa].Derecha, 0);
-                        int puria = 0;
+                    }
+                    else
+                    {
+                        if (VectorPadre[espacioPa + 1]!=null)
+                        {
+                            Vector.Vector[numEliminar] = null;
+                            NodoArbolB<T> Auxiliar = new NodoArbolB<T>();
+                            T aux = default;
+                            aux = VectorPadre[espacioPa].Data;
+                            VectorPadre[espacioPa] = null;
+                            Auxiliar.Data = aux;
+                            VectorPadre[espacioPa + 1].Izquierda.Vector[1] = Auxiliar;
+                            OrdenarEspacios(Vector.Padre, 0);
+                            ShellSort(VectorPadre[espacioPa].Izquierda.Vector, Comparision);
+                        }
                     }
                 }
-                else if (espacioPa==VectorPadre.Length-2)
+                else //esta entre los nodos de en medio o de ultimo
                 {
+                    int hijosizqmas = 0;
+                    int hijosizqmen = 0;
+                    for (int i = 0; i < VectorPadre.Length; i++)
+                    {
+                        if (VectorPadre[espacioPa - 1].Izquierda.Vector[i] != null)
+                        {
+                            hijosizqmen++;
+                        }
+                        if (VectorPadre[espacioPa + 1]== null)
+                        {
+                            if (VectorPadre[espacioPa].Derecha.Vector[i] != null)
+                            {
+                                hijosizqmas++;
+                            }
+                        }
+                    }
+                    if (hijosizqmen > Minposible)
+                    {
+                        ShellSort(VectorPadre[espacioPa-1].Izquierda.Vector, Comparision);
+                        T aux = default;
+                        aux = VectorPadre[espacioPa-1].Data;
+                        VectorPadre[espacioPa-1].Data = VectorPadre[espacioPa-1].Izquierda.Vector[hijosizqmen-1].Data;
+                        VectorPadre[espacioPa - 1].Izquierda.Vector[hijosizqmen - 1] = null;
+                        NodoArbolB<T> Auxiliar = new NodoArbolB<T>();
+                        Auxiliar.Data = aux;
+                        VectorPadre[espacioPa].Izquierda.Vector[Minposible] = Auxiliar;
+                        Vector.Vector[numEliminar] = null;
+                        OrdenarEspacios(Vector, numEliminar);
+                    }
+                    else if (hijosizqmas > Minposible)
+                    {
+                        ShellSort(VectorPadre[espacioPa].Derecha.Vector, Comparision);
+                        T aux = default;
+                        aux = VectorPadre[espacioPa].Data;
+                        VectorPadre[espacioPa ].Data = VectorPadre[espacioPa].Derecha.Vector[0].Data;
+                        VectorPadre[espacioPa ].Derecha.Vector[0 ] = null;
+                        NodoArbolB<T> Auxiliar = new NodoArbolB<T>();
+                        Auxiliar.Data = aux;
+                        VectorPadre[espacioPa].Izquierda.Vector[Minposible] = Auxiliar;
+                        Vector.Vector[numEliminar] = null;
+                        OrdenarEspacios(Vector, numEliminar);
+                        OrdenarEspacios(VectorPadre[espacioPa].Derecha, numEliminar);
 
+                    }
                 }
+            }//derecho
+            else
+            {
+
             }
-        }
-
-        public int ContarHijos(NodoVector<T> Vector) 
-        {
-
-            return 0;
         }
         public void OrdenarEspacios(NodoVector<T> Vector, int num) 
         {
