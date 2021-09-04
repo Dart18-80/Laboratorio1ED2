@@ -400,7 +400,52 @@ namespace LibreriaDeClasesED2
             {
                 if (Vector.Padre == null)//Ver si tiene padre
                 {
+                    if (Vector.Vector[1]==null)
+                    {
+                        int hijosizqmas = 0;
+                        int hijosizqmen = 0;
+                        T aux = default;
+                        NodoArbolB<T> Auxiliar = new NodoArbolB<T>();
+                        for (int i = 0; i < Vector.Padre.Vector.Length; i++)
+                        {
+                            if (Vector.Vector[0].Izquierda.Vector[i] != null)
+                            {
+                                hijosizqmen++;
+                            }
+                            if (Vector.Vector[0].Derecha.Vector[i] != null)
+                            {
+                                    hijosizqmas++;
+                            }
+                        }
 
+                        if (hijosizqmen>hijosizqmas)
+                        {
+                            Vector.Vector[0].Data = Vector.Vector[0].Izquierda.Vector[hijosizqmen-1].Data;
+                            Vector.Vector[0].Izquierda.Vector[hijosizqmen-1] = null;
+                        }
+                        else if (hijosizqmas>hijosizqmen)
+                        {
+                            Vector.Vector[0].Data = Vector.Vector[0].Derecha.Vector[0].Data;
+                            Vector.Vector[0].Derecha.Vector[0] = null;
+                            OrdenarEspacios(Vector.Vector[0].Derecha, 0);
+                        }
+                        else
+                        {
+                            for (int i = 0; i < hijosizqmen; i++)
+                            {
+                                Vector.Vector[i] = Vector.Vector[i].Izquierda.Vector[i];
+                            }
+                            for (int i = hijosizqmas-1; i < Vector.Vector.Length; i++)
+                            {
+                                if (hijosizqmas>0)
+                                {
+                                    int a = 0;
+                                    Vector.Vector[i] = Vector.Vector[i].Derecha.Vector[a];
+                                }
+                                a++;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -517,9 +562,8 @@ namespace LibreriaDeClasesED2
                     }
                 }
             }//derecho
-            else
+            else//el hijo derecho con su padre 
             {
-
             }
         }
         public void OrdenarEspacios(NodoVector<T> Vector, int num) 
