@@ -442,7 +442,6 @@ namespace LibreriaDeClasesED2
                                     int a = 0;
                                     Vector.Vector[i] = Vector.Vector[i].Derecha.Vector[a];
                                 }
-                                a++;
                             }
                         }
                     }
